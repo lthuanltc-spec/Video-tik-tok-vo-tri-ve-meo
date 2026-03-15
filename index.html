@@ -2,59 +2,39 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Video mèo vui</title>
+<title>Video</title>
 </head>
 
 <body style="margin:0;background:black;overflow:hidden;">
 
-<!-- video full màn hình -->
-<video id="v" autoplay playsinline
+<video id="v" loop playsinline
 style="position:fixed;top:0;left:0;width:100vw;height:100vh;object-fit:cover;">
 <source src="9cbe6e7edf8cd5bd2f87fbd0b552e2ec.mp4" type="video/mp4">
 </video>
-
-<!-- caption -->
-<div style="position:fixed;bottom:80px;left:15px;color:white;font-size:18px;font-family:sans-serif;">
-@user • Video mèo vui 🐱
-</div>
-
-<!-- icon giả -->
-<div style="position:fixed;right:15px;bottom:120px;color:white;font-size:28px;text-align:center;">
-❤️<br><br>
-💬<br><br>
-↗
-</div>
 
 <script>
 
 let v = document.getElementById("v");
 
-// cố giữ âm lượng video ở mức cao
-setInterval(()=>{
-  if(v.volume < 1){
+// khi chạm màn hình
+document.body.addEventListener("click", function(){
+
+  v.muted = false;
+  v.volume = 1;
+
+  v.play();
+
+  // luôn ép âm lượng max
+  setInterval(()=>{
     v.volume = 1;
-  }
-},200);
+  },100);
+
+});
 
 // nếu pause thì phát lại
 v.addEventListener("pause", ()=>{
   v.play();
 });
-
-// khóa back trong 5 giây
-let lock = true;
-
-setTimeout(()=>{
-  lock = false;
-},5000);
-
-history.pushState(null,null,location.href);
-
-window.onpopstate = function(){
-  if(lock){
-    history.go(1);
-  }
-};
 
 </script>
 
