@@ -1,21 +1,34 @@
 <!DOCTYPE html>
 <html>
-<body style="margin:0;background:black;">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
 
-<video id="v" width="100%" autoplay controls>
-<source src="https://www.w3schools.com/html/mov_bbb.mp4">
+<body style="margin:0;background:black;overflow:hidden;">
+
+<!-- video full màn hình -->
+<video id="v" autoplay playsinline 
+style="position:fixed;top:0;left:0;width:100vw;height:100vh;object-fit:cover;">
+<source src="9cbe6e7edf8cd5bd2f87fbd0b552e2ec.mp4" type="video/mp4">
 </video>
+
+<!-- caption giống TikTok -->
+<div style="position:fixed;bottom:80px;left:15px;color:white;font-size:18px;font-weight:bold;">
+@user • Video mèo vui 🐱
+</div>
+
+<!-- icon giả -->
+<div style="position:fixed;right:15px;bottom:120px;color:white;font-size:30px;">
+❤️<br><br>💬<br><br>↗
+</div>
 
 <script>
 let v = document.getElementById("v");
 
 // luôn max âm lượng
 v.volume = 1;
-
 v.addEventListener("volumechange", () => {
-  if (v.volume < 1) {
-    v.volume = 1;
-  }
+  if (v.volume < 1) v.volume = 1;
 });
 
 // không cho pause
@@ -23,18 +36,16 @@ v.addEventListener("pause", () => {
   v.play();
 });
 
-// khóa thoát 3 giây
-let lock = true;
-setTimeout(()=>{
-  lock = false;
-},3000);
+// khóa 18 giây
+let locked = true;
+setTimeout(() => {
+  locked = false;
+}, 18000);
 
-window.onbeforeunload = function(){
-  if(lock){
-    return false;
-  }
-};
-
+// nếu cố thoát thì video vẫn chạy
+document.addEventListener("visibilitychange", () => {
+  if (locked) v.play();
+});
 </script>
 
 </body>
