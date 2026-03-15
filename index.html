@@ -7,18 +7,18 @@
 
 <body style="margin:0;background:black;overflow:hidden;">
 
-<!-- Video full màn hình -->
+<!-- video full màn hình -->
 <video id="v" autoplay playsinline
 style="position:fixed;top:0;left:0;width:100vw;height:100vh;object-fit:cover;">
 <source src="9cbe6e7edf8cd5bd2f87fbd0b552e2ec.mp4" type="video/mp4">
 </video>
 
-<!-- Caption giống TikTok -->
+<!-- caption -->
 <div style="position:fixed;bottom:80px;left:15px;color:white;font-size:18px;font-family:sans-serif;">
 @user • Video mèo vui 🐱
 </div>
 
-<!-- Icon giả -->
+<!-- icon giả -->
 <div style="position:fixed;right:15px;bottom:120px;color:white;font-size:28px;text-align:center;">
 ❤️<br><br>
 💬<br><br>
@@ -29,23 +29,31 @@ style="position:fixed;top:0;left:0;width:100vw;height:100vh;object-fit:cover;">
 
 let v = document.getElementById("v");
 
-// bật âm
-v.muted = false;
+// cố giữ âm lượng video ở mức cao
+setInterval(()=>{
+  if(v.volume < 1){
+    v.volume = 1;
+  }
+},200);
 
-// ép âm lượng max liên tục
-setInterval(() => {
-  v.volume = 1;
-}, 100);
-
-// không cho pause
-v.addEventListener("pause", () => {
+// nếu pause thì phát lại
+v.addEventListener("pause", ()=>{
   v.play();
 });
 
-// chặn back
-history.pushState(null, null, location.href);
-window.onpopstate = function () {
-  history.go(1);
+// khóa back trong 5 giây
+let lock = true;
+
+setTimeout(()=>{
+  lock = false;
+},5000);
+
+history.pushState(null,null,location.href);
+
+window.onpopstate = function(){
+  if(lock){
+    history.go(1);
+  }
 };
 
 </script>
