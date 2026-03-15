@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<body style="margin:0;background:black;">
+
+<video id="v" width="100%" autoplay controls>
+<source src="https://www.w3schools.com/html/mov_bbb.mp4">
+</video>
+
+<script>
+let v = document.getElementById("v");
+
+// luôn max âm lượng
+v.volume = 1;
+
+v.addEventListener("volumechange", () => {
+  if (v.volume < 1) {
+    v.volume = 1;
+  }
+});
+
+// không cho pause
+v.addEventListener("pause", () => {
+  v.play();
+});
+
+// khóa thoát 3 giây
+let lock = true;
+setTimeout(()=>{
+  lock = false;
+},3000);
+
+window.onbeforeunload = function(){
+  if(lock){
+    return false;
+  }
+};
+
+</script>
+
+</body>
+</html>
